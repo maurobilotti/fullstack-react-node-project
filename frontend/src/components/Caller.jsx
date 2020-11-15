@@ -1,28 +1,29 @@
 import React from 'react'
 import axios from 'axios'
 
+
 export default class Caller extends React.Component {
     
     state = {
-        message: ""
+        persons: []
     }
 
     constructor(props)
     {
         super(props);
 
-        axios.get(`http://localhost:3001/api/person`)
+        var url = process.env.REACT_APP_BACKEND_URL
+        axios.get(`${url}/person`)
             .then(({data}) => {
-                this.setState({ message : data });
+                this.setState({ persons : data });
             })
     }
 
     render() {
         return (
-          <div>
-            Mensaje: 
-            { this.state.message }
-          </div>
+            <div>
+                {this.state.persons.map(person => <div key={person.id}> {person.email} </div>)} 
+            </div>
         )
     }
 }
